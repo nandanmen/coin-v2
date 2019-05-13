@@ -3,10 +3,10 @@ import { Router } from '@reach/router';
 import { ThemeProvider } from 'styled-components';
 
 import theme from 'theme';
-import Home from 'pages/Home';
-import Accounts from 'pages/Accounts';
-import Transactions from 'pages/Transactions';
-import Budget from 'pages/Budget';
+import Home from 'screens/Home';
+import Accounts from 'screens/Accounts';
+import Transactions from 'screens/Transactions';
+import Budget from 'screens/Budget';
 
 function App() {
   return (
