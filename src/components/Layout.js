@@ -74,6 +74,10 @@ const NavIcon = styled(MenuAltRight)`
   position: fixed;
   top: 1rem;
   right: 1rem;
+
+  @media (min-width: ${getBreakpoint(1)}) {
+    display: none;
+  }
 `;
 
 const DesktopNav = styled.nav`

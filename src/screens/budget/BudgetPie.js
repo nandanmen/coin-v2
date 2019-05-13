@@ -56,7 +56,7 @@ function renderCenterLabel({ viewBox: { cx, cy }, value }) {
   );
 }
 
-function BudgetPie({ budgets = getBudgets(), width = '100%' }) {
+function BudgetPie({ budgets = getBudgets(), width = '100%', navigateFn }) {
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const total = useMemo(
@@ -86,6 +86,7 @@ function BudgetPie({ budgets = getBudgets(), width = '100%' }) {
           isAnimationActive={false}
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
+          onClick={({ payload }) => navigateFn(payload.name)}
           paddingAngle={4}
         >
           {budgets.map(budget => (
