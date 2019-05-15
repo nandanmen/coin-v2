@@ -16,7 +16,7 @@ function BudgetList({ budgets = getBudgets() }) {
             color={budget.color}
           />
           <Percentage>
-            {((budget.spent / budget.budget) * 100).toFixed(0)}%
+            {((budget.spent / budget.budget) * 100).toFixed(1)}%
           </Percentage>
         </Budget>
       ))}

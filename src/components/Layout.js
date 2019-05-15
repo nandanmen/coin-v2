@@ -49,9 +49,11 @@ const PageWrapper = styled.div`
 
 const Main = styled.main`
   display: grid;
+  justify-content: start;
   grid-row: 2 / span 1;
   grid-column: 1 / span 1;
   grid-template-columns: 1fr ${MAIN_WIDTH} 1fr;
+  grid-auto-rows: min-content;
   > * {
     grid-column: 2 / -2;
   }

@@ -100,3 +100,6 @@ export const getBudgets = () =>
 
 export const getAccounts = () =>
   Object.entries(data.accounts).map(([id, info]) => ({ id, ...info }));
+
+export const getTransactions = () =>
+  data.transactions.allIds.map(id => ({ id, ...data.transactions.byId[id] }));

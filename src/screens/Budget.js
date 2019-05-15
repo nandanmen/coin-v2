@@ -8,12 +8,12 @@ import { getBreakpoint } from 'theme';
 import BudgetPie from './budget/BudgetPie';
 import BudgetList from './budget/BudgetList';
 
-function Budget(props) {
+function Budget() {
   return (
     <Layout>
       <Heading>Your budget.</Heading>
       <PieWrapper>
-        <BudgetPie navigateFn={props.navigate} />
+        <BudgetPie />
       </PieWrapper>
       <BudgetList />
       <ButtonContainer>
