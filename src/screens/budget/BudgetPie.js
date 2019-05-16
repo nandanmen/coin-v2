@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   ResponsiveContainer,
@@ -59,10 +59,7 @@ function renderCenterLabel({ viewBox: { cx, cy }, value }) {
 function BudgetPie({ budgets = getBudgets(), width = '100%' }) {
   const [isActive, setIsActive] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const total = useMemo(
-    () => budgets.reduce((sum, budget) => sum + budget.spent, 0),
-    [budgets]
-  );
+  const total = budgets.reduce((sum, budget) => sum + budget.spent, 0);
 
   const handleEnter = (_, index) => {
     setIsActive(true);

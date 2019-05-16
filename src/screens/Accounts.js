@@ -5,9 +5,9 @@ import Layout, { MAIN_WIDTH } from 'components/Layout';
 import Currency from 'components/Currency';
 import Button from 'components/Button';
 import BlockLink from 'components/BlockLink';
+import BankCard from 'components/BankCard';
 import { getAccounts, getTotalBalance } from 'utils/mock';
 import { getBreakpoint } from 'theme';
-import BankCard from './accounts/BankCard';
 
 function Accounts() {
   return (

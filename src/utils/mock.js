@@ -108,6 +108,10 @@ export const getBudgets = () =>
     return result;
   });
 
+export const getBudgetByName = name => ({ name, ...data.budgets[name] });
+
+export const getAccountById = id => ({ id, ...data.accounts[id] });
+
 export const getAccounts = () =>
   Object.entries(data.accounts).map(([id, info]) => ({ id, ...info }));
 

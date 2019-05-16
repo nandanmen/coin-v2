@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 import Layout from 'components/Layout';
+import TransactionList from 'components/TransactionList';
 import { getTransactions } from 'utils/mock';
 
 import Week from './transactions/Week';
 import Month from './transactions/Month';
-import TransactionList from './transactions/TransactionList';
 import TransactionSummary from './transactions/TransactionSummary';
 
 const periods = ['week', 'month'];

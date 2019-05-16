@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import Icon from './Icon';
+import Icon from 'components/Icon';
 
 function getDisplayAmount(amount) {
   const opts = { style: 'currency', currency: 'usd' };
