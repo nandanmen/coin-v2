@@ -59,22 +59,32 @@ const data = {
       0: {
         vendor: 'tim hortons',
         amount: -2.09,
-        date: '2019-05-07'
+        date: '2019-05-07',
+        account: 0,
+        budget: 'food',
+        note: 'Medium double double'
       },
       1: {
         vendor: 'london drugs',
         amount: -7.83,
-        date: '2019-05-06'
+        date: '2019-05-06',
+        account: 0,
+        budget: 'groceries',
+        note: 'Nestle coffee'
       },
       2: {
         vendor: 'chipotle',
         amount: -11.03,
-        date: '2019-05-06'
+        date: '2019-05-06',
+        account: 0,
+        budget: 'food'
       },
       3: {
         vendor: 'tnt',
         amount: -7.28,
-        date: '2019-05-06'
+        date: '2019-05-06',
+        account: 0,
+        budget: 'groceries'
       }
     },
     allIds: [0, 1, 2, 3]
@@ -101,5 +111,11 @@ export const getBudgets = () =>
 export const getAccounts = () =>
   Object.entries(data.accounts).map(([id, info]) => ({ id, ...info }));
 
-export const getTransactions = () =>
-  data.transactions.allIds.map(id => ({ id, ...data.transactions.byId[id] }));
+export const getTransactions = () => {
+  const { allIds, byId } = data.transactions;
+  return allIds.map(id => {
+    const result = { id, ...byId[id] };
+    result.account = data.accounts[result.account];
+    return result;
+  });
+};

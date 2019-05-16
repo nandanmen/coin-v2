@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { subMonths, subWeeks, subDays, isWithinRange, parse } from 'date-fns';
 import { getBudgets } from 'utils/mock';
@@ -39,10 +39,8 @@ function getMockTransactions(period) {
 }
 
 function SpendingInfo({ className }) {
-  const [activePeriod, setActivePeriod] = useState(PERIOD_OPTIONS.DAY);
-  const budgets = useMemo(() => getMockTransactions(activePeriod), [
-    activePeriod
-  ]);
+  const [activePeriod, setActivePeriod] = React.useState(PERIOD_OPTIONS.DAY);
+  const budgets = getMockTransactions(activePeriod);
   const total = budgets.reduce((sum, budget) => sum + budget.amount, 0);
   return (
     <div className={className}>

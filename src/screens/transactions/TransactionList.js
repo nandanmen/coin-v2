@@ -1,12 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 
-function TransactionList({ transactions }) {
-  return transactions.map(tr => (
-    <li key={tr.id}>
-      <h1>{tr.vendor}</h1>
-      <p>{tr.amount * -1}</p>
-    </li>
-  ));
+import Transaction from './Transaction';
+
+function TransactionList({ transactions, className }) {
+  return (
+    <Container className={className}>
+      {transactions.length
+        ? transactions.map(tr => <Transaction key={tr.id} {...tr} />)
+        : `You don't have any transactions today.`}
+    </Container>
+  );
 }
 
 export default TransactionList;
+
+const Container = styled.ul`
+  list-style: none;
+`;
