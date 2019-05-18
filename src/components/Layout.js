@@ -1,34 +1,28 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MenuAltRight } from 'styled-icons/boxicons-regular';
+import { Close } from 'styled-icons/material';
 import { getBreakpoint } from 'theme';
 
-import Nav, { generateRoutes } from './layout/Nav';
+import Nav from './layout/Nav';
 
 export const MAIN_WIDTH = '23.5em';
 
 function Layout({ children }) {
   const [isNavOpen, setNavOpen] = useState(false);
   const toggleNav = () => setNavOpen(prev => !prev);
-
   return (
     <PageWrapper>
       <NavIconWrapper onClick={toggleNav}>
-        <MenuAltRight size="5rem" />
+        {isNavOpen ? <Close size="5rem" /> : <MenuAltRight size="5rem" />}
       </NavIconWrapper>
       <Main>{children}</Main>
-      <Nav />
+      <Nav variant={isNavOpen ? 'mobile' : null} />
     </PageWrapper>
   );
 }
 
 export default Layout;
-
-const MobileNav = styled.ul`
-  width: 100vw;
-  height: 100vh;
-  list-style: none;
-`;
 
 const PageWrapper = styled.div`
   display: grid;
@@ -75,6 +69,7 @@ const NavIconWrapper = styled.div`
   position: fixed;
   top: 1rem;
   right: 1rem;
+  z-index: 10;
 
   @media (min-width: ${getBreakpoint(1)}) {
     display: none;

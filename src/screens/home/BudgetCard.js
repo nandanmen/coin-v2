@@ -5,21 +5,24 @@ import { string, number } from 'prop-types';
 import Card from 'components/Card';
 import Currency from 'components/Currency';
 import ProgressBar from 'components/ProgressBar';
+import BlockLink from 'components/BlockLink';
 
 function BudgetCard({ className, category, spent, budget, color }) {
   const proportionSpent = (spent / budget) * 100;
   return (
-    <Container className={className}>
-      <Percentage>{proportionSpent.toFixed(2)}%</Percentage>
-      <div>
-        <Spent amount={spent} currency="usd" />
-        <Budget amount={budget} currency="usd" />
-      </div>
-      <div>
-        <Title>{category}</Title>
-        <ProgressBar percentage={proportionSpent} color={color} />
-      </div>
-    </Container>
+    <BlockLink to={`/budget/${category}`}>
+      <Container className={className}>
+        <Percentage>{proportionSpent.toFixed(2)}%</Percentage>
+        <div>
+          <Spent amount={spent} currency="usd" />
+          <Budget amount={budget} currency="usd" />
+        </div>
+        <div>
+          <Title>{category}</Title>
+          <ProgressBar percentage={proportionSpent} color={color} />
+        </div>
+      </Container>
+    </BlockLink>
   );
 }
 
@@ -33,6 +36,7 @@ BudgetCard.propTypes = {
 export default BudgetCard;
 
 export const Container = styled(Card)`
+  width: 100%;
   padding: 3em 2em;
   display: flex;
   flex-direction: column;

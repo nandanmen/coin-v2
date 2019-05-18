@@ -10,42 +10,69 @@ import {
 import BlockLink from 'components/BlockLink';
 import { getBreakpoint } from 'theme';
 
-export function generateRoutes(size = '4rem') {
-  return {
-    '/': <Home size={size} />,
-    '/accounts': <CreditCard size={size} />,
-    '/budget': <Wallet size={size} />,
-    '/transactions': <Money size={size} />
-  };
-}
-
 function Nav({ variant }) {
+  if (variant === 'mobile') {
+    return (
+      <MobileNav>
+        <Icon key="home" to="/" icon={<Home size="4rem" />}>
+          Home
+        </Icon>
+        <Icon key="accounts" to="/accounts" icon={<CreditCard size="4rem" />}>
+          Accounts
+        </Icon>
+        <Icon key="budget" to="/budget" icon={<Wallet size="4rem" />}>
+          Budget
+        </Icon>
+        <Icon
+          key="transactions"
+          to="/transactions"
+          icon={<Money size="4rem" />}
+        >
+          Transactions
+        </Icon>
+      </MobileNav>
+    );
+  }
+
   return (
-    <NavWrapper variant={variant}>
-      {variant === 'mobile' ? null : (
-        <Icon to="/" icon={<Plus size="4rem" />} />
-      )}
-      {Object.entries(generateRoutes()).map(([route, icon]) => (
-        <div key={route}>
-          <Icon to={route} icon={icon} />
-        </div>
-      ))}
+    <NavWrapper>
+      <Icon to="/" icon={<Plus size="4rem" />} />
+      <Icon key="home" to="/" icon={<Home size="4rem" />} />
+      <Icon key="accounts" to="/accounts" icon={<CreditCard size="4rem" />} />
+      <Icon key="budget" to="/budget" icon={<Wallet size="4rem" />} />
+      <Icon
+        key="transactions"
+        to="/transactions"
+        icon={<Money size="4rem" />}
+      />
     </NavWrapper>
   );
 }
 
 export default Nav;
 
-const NavWrapper = styled.nav`
+const MobileNav = styled.nav`
+  background: ${({ theme }) => theme.colors.white};
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  display: ${({ variant }) => (variant === 'mobile' ? 'flex' : 'none')};
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2em;
+  padding: 3em;
+  font-size: 2em;
+`;
+
+const NavWrapper = styled.nav`
+  display: none;
 
   @media (min-width: ${getBreakpoint(1)}) {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
@@ -64,11 +91,14 @@ const NavWrapper = styled.nav`
       }
     }
     right: calc(16px + 368 * ((100vw - 784px) / 1136));
-    align-items: center;
   }
 `;
 
 const Icon = styled(BlockLink)`
+  margin-bottom: 1.5em;
+  &:last-child {
+    margin-bottom: 0;
+  }
   &:hover {
     color: ${({ theme }) => theme.colors.blue};
   }

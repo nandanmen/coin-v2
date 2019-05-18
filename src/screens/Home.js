@@ -16,7 +16,7 @@ function Home() {
       <Heading>Welcome.</Heading>
       <NumbersContainer>
         <NumberSummary
-          to="/today"
+          to="/transactions"
           icon={<Icon size="3em" title="Go to today page" />}
         >
           <LinkWrapper>

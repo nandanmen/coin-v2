@@ -35,10 +35,11 @@ export default Accounts;
 
 const Heading = styled.h1`
   font-size: 3.33em;
+  margin-bottom: 1em;
 `;
 
 const Mid = styled.div`
-  margin-bottom: 1em;
+  margin-bottom: 3em;
   @media (min-width: ${getBreakpoint(0)}) {
     display: flex;
     align-items: center;
@@ -61,7 +62,7 @@ const AddBtn = styled(Button)`
 `;
 
 const Card = styled(BankCard)`
-  height: 100%;
+  height: 14em;
   width: 100%;
 `;
 
