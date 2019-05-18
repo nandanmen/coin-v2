@@ -1,35 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  MenuAltRight,
-  Home,
-  CreditCard,
-  Money,
-  Plus,
-  Wallet
-} from 'styled-icons/boxicons-regular';
-import BlockLink from 'components/BlockLink';
+import { MenuAltRight } from 'styled-icons/boxicons-regular';
 import { getBreakpoint } from 'theme';
+
+import Nav, { generateRoutes } from './layout/Nav';
 
 export const MAIN_WIDTH = '23.5em';
 
 function Layout({ children }) {
+  const [isNavOpen, setNavOpen] = useState(false);
+  const toggleNav = () => setNavOpen(prev => !prev);
+
   return (
     <PageWrapper>
-      <NavIcon size="5rem" />
+      <NavIconWrapper onClick={toggleNav}>
+        <MenuAltRight size="5rem" />
+      </NavIconWrapper>
       <Main>{children}</Main>
-      <DesktopNav>
-        <Icon to="/" icon={<Plus size="4rem" />} />
-        <Icon to="/" icon={<Home size="4rem" />} />
-        <Icon to="/accounts" icon={<CreditCard size="4rem" />} />
-        <Icon to="/budget" icon={<Wallet size="4rem" />} />
-        <Icon to="/transactions" icon={<Money size="4rem" />} />
-      </DesktopNav>
+      <Nav />
     </PageWrapper>
   );
 }
 
 export default Layout;
+
+const MobileNav = styled.ul`
+  width: 100vw;
+  height: 100vh;
+  list-style: none;
+`;
 
 const PageWrapper = styled.div`
   display: grid;
@@ -71,7 +70,7 @@ const Main = styled.main`
   }
 `;
 
-const NavIcon = styled(MenuAltRight)`
+const NavIconWrapper = styled.div`
   color: ${({ theme }) => theme.colors.black};
   position: fixed;
   top: 1rem;
@@ -79,37 +78,5 @@ const NavIcon = styled(MenuAltRight)`
 
   @media (min-width: ${getBreakpoint(1)}) {
     display: none;
-  }
-`;
-
-const DesktopNav = styled.nav`
-  display: none;
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.grays.dark};
-  min-height: 6em;
-  padding: 2em 1.5em;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  border-radius: 1rem;
-  > * {
-    margin-bottom: 1.5em;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  @media (min-width: ${getBreakpoint(1)}) {
-    right: calc(16px + 368 * ((100vw - 784px) / 1136));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const Icon = styled(BlockLink)`
-  &:hover {
-    color: ${({ theme }) => theme.colors.blue};
   }
 `;
