@@ -36,7 +36,7 @@ function Nav({ variant }) {
 
   return (
     <NavWrapper>
-      <Icon to="/" icon={<Plus size="4rem" />} />
+      <Icon to="/add" icon={<Plus size="4rem" />} />
       <Icon key="home" to="/" icon={<Home size="4rem" />} />
       <Icon key="accounts" to="/accounts" icon={<CreditCard size="4rem" />} />
       <Icon key="budget" to="/budget" icon={<Wallet size="4rem" />} />

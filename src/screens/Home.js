@@ -13,7 +13,7 @@ import { getBreakpoint } from 'theme';
 function Home() {
   return (
     <Layout>
-      <Heading>Welcome.</Heading>
+      <Layout.Heading>Welcome.</Layout.Heading>
       <NumbersContainer>
         <NumberSummary
           to="/transactions"
@@ -41,11 +41,6 @@ function Home() {
 }
 
 export default Home;
-
-const Heading = styled.h1`
-  font-size: 3.33em;
-  margin-bottom: 1.5em;
-`;
 
 const NumberSummary = styled(BlockLink)`
   margin-bottom: 1.5em;

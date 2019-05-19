@@ -11,7 +11,7 @@ import BudgetList from './budget/BudgetList';
 function Budget() {
   return (
     <Layout>
-      <Heading>Your budget.</Heading>
+      <Layout.Heading>Your budget.</Layout.Heading>
       <PieWrapper>
         <BudgetPie />
       </PieWrapper>
@@ -25,11 +25,6 @@ function Budget() {
 }
 
 export default Budget;
-
-const Heading = styled.h1`
-  font-size: 3.33em;
-  margin-bottom: 1em;
-`;
 
 const PieWrapper = styled.div`
   width: 100%;

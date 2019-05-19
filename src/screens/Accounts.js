@@ -12,7 +12,7 @@ import { getBreakpoint } from 'theme';
 function Accounts() {
   return (
     <Layout>
-      <Heading>Your accounts.</Heading>
+      <Layout.Heading>Your accounts.</Layout.Heading>
       <Mid>
         <LinkWrapper>
           <Spent amount={getTotalBalance()} currency="usd" />
@@ -32,11 +32,6 @@ function Accounts() {
 }
 
 export default Accounts;
-
-const Heading = styled.h1`
-  font-size: 3.33em;
-  margin-bottom: 1em;
-`;
 
 const Mid = styled.div`
   margin-bottom: 3em;

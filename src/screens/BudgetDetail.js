@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Layout from 'components/Layout';
-import BaseHeading from 'components/Heading';
 import TransactionGroup from 'components/TransactionGroup';
 import BackButton from 'components/BackButton';
 import BudgetProgress from './budgetDetail/BudgetProgress';
@@ -29,16 +28,18 @@ function BudgetDetail({ name }) {
 
 export default BudgetDetail;
 
-const Heading = styled(BaseHeading)`
+const Heading = styled(Layout.Heading)`
   text-transform: capitalize;
 `;
 
 const PieWrapper = styled.div`
   width: 100%;
   margin: 4em 0;
+  margin-top: 0;
   @media (min-width: ${getBreakpoint(0)}) {
     width: 50%;
-    margin: 4em auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 `;
 

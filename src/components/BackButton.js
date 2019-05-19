@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from '@reach/router';
 import styled from 'styled-components';
 import { ArrowBack } from 'styled-icons/boxicons-regular';
 
 function BackButton({ className, children }) {
   return (
-    <Back to="../" className={className}>
+    <Back onClick={() => window.history.back()} className={className}>
       <ArrowBack size="1em" />
       <p>{children}</p>
     </Back>
@@ -14,7 +13,7 @@ function BackButton({ className, children }) {
 
 export default BackButton;
 
-const Back = styled(Link)`
+const Back = styled.div`
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.grays.dark};
@@ -26,4 +25,5 @@ const Back = styled(Link)`
     color: ${({ theme }) => theme.colors.blue};
   }
   margin-bottom: 1em;
+  cursor: pointer;
 `;

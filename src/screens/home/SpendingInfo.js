@@ -1,26 +1,23 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { subMonths, subWeeks, subDays, isWithinRange, parse } from 'date-fns';
 import { getBudgets } from 'utils/mock';
+import { useOptions } from 'utils/hooks';
 import SplitBar from './SplitBar';
 
-const PERIOD_OPTIONS = {
-  DAY: 'day',
-  WEEK: 'week',
-  MONTH: 'month'
-};
+const PERIOD_OPTIONS = ['day', 'week', 'month'];
 
 function getMockTransactions(period) {
   const today = new Date();
   let after = subDays(today, 1);
   switch (period) {
-    case PERIOD_OPTIONS.MONTH:
+    case 'month':
       after = subMonths(today, 1);
       break;
-    case PERIOD_OPTIONS.WEEK:
+    case 'week':
       after = subWeeks(today, 1);
       break;
-    case PERIOD_OPTIONS.DAY:
+    case 'day':
     default:
       break;
   }
@@ -39,22 +36,12 @@ function getMockTransactions(period) {
 }
 
 function SpendingInfo({ className }) {
-  const [activePeriod, setActivePeriod] = React.useState(PERIOD_OPTIONS.DAY);
-  const budgets = getMockTransactions(activePeriod);
+  const [active, options] = useOptions(0, PERIOD_OPTIONS);
+  const budgets = getMockTransactions(active);
   const total = budgets.reduce((sum, budget) => sum + budget.amount, 0);
   return (
     <div className={className}>
-      <OptionsContainer>
-        {Object.keys(PERIOD_OPTIONS).map(option => (
-          <OptionBtn
-            key={option}
-            onClick={() => setActivePeriod(PERIOD_OPTIONS[option])}
-            isActive={PERIOD_OPTIONS[option] === activePeriod}
-          >
-            {option.toLowerCase()}
-          </OptionBtn>
-        ))}
-      </OptionsContainer>
+      <OptionsContainer>{options}</OptionsContainer>
       <SplitBar amounts={budgets} />
       {total ? null : <CenterText>No spendings today.</CenterText>}
     </div>
@@ -65,32 +52,6 @@ export default SpendingInfo;
 
 const OptionsContainer = styled.div`
   margin-bottom: 1.5em;
-`;
-
-const OptionBtn = styled.button`
-  text-transform: capitalize;
-  position: relative;
-  margin-right: 2em;
-  font-size: 1.5em;
-  font-weight: 500;
-  padding-bottom: 0.5em;
-  color: ${({ theme }) => theme.colors.black};
-  cursor: pointer;
-  outline: none;
-
-  ${({ isActive }) =>
-    isActive &&
-    css`
-      &:after {
-        content: '';
-        position: absolute;
-        background: ${({ theme }) => theme.colors.black};
-        width: 100%;
-        height: 2px;
-        left: 0;
-        bottom: 0;
-      }
-    `}
 `;
 
 const CenterText = styled.p`

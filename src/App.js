@@ -9,6 +9,7 @@ import Transactions from 'screens/Transactions';
 import Budget from 'screens/Budget';
 import BudgetDetail from 'screens/BudgetDetail';
 import AccountDetail from 'screens/AccountDetail';
+import AddForm from 'screens/AddForm';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Budget path="budget" />
         <BudgetDetail path="budget/:name" />
         <Transactions path="transactions" />
+        <AddForm path="add" />
       </Router>
     </ThemeProvider>
   );

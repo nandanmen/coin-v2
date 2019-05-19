@@ -22,6 +22,13 @@ function Layout({ children }) {
   );
 }
 
+const Heading = styled.h1`
+  font-size: 3.33em;
+  margin-bottom: 1.2em;
+`;
+
+Layout.Heading = Heading;
+
 export default Layout;
 
 const PageWrapper = styled.div`
