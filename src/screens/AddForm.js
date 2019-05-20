@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Layout from 'components/Layout';
 import BackButton from 'components/BackButton';
@@ -21,10 +22,14 @@ function AddForm() {
     <Layout>
       <BackButton>Back</BackButton>
       <Layout.Heading>Add new {activeForm}</Layout.Heading>
-      <div>{formOptions}</div>
+      <Buttons>{formOptions}</Buttons>
       {formComponents[activeForm]}
     </Layout>
   );
 }
 
 export default AddForm;
+
+const Buttons = styled.div`
+  margin-bottom: 1.5em;
+`;
