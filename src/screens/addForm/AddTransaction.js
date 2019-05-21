@@ -6,6 +6,9 @@ import { format } from 'date-fns';
 import Select from 'components/Select';
 import BaseInput from 'components/Input';
 import { getBreakpoint } from 'theme';
+import { getAccounts } from 'utils/mock';
+
+import CardForm from './addTransaction/CardForm';
 
 const cardLogos = {
   visa: <Visa size="1.5em" />,
@@ -13,34 +16,19 @@ const cardLogos = {
   amex: 'Amex'
 };
 
-const mockCards = [
-  {
-    id: 0,
-    bank: 'bmo',
-    accountType: 'debit',
-    name: 'bmo debit',
-    type: 'mastercard',
-    num: 5010
-  },
-  {
-    id: 1,
-    bank: 'bmo',
-    accountType: 'credit',
-    name: 'bmo credit',
-    type: 'mastercard',
-    num: 5010
-  },
-  {
-    id: 2,
-    bank: 'scotia',
-    accountType: 'credit',
-    name: 'scotia credit',
-    type: 'visa',
-    num: 5010
-  }
-];
+const mockCards = getAccounts().map(account => {
+  return {
+    ...account,
+    name: [account.bank, account.accountType].join(' ')
+  };
+});
 
 const mockCategories = ['food', 'groceries', 'gas'];
+
+const buildHandleClick = (fn, ...args) => e => {
+  e.preventDefault();
+  fn(...args);
+};
 
 function AddTransaction({ type }) {
   const [vendor, setVendor] = useState('');
@@ -48,6 +36,8 @@ function AddTransaction({ type }) {
   const [date, setDate] = useState(format(new Date(), 'YYYY-MM-DD'));
   const [card, setCard] = useState(0);
   const [category, setCategory] = useState('');
+  const [editingCard, setEditingCard] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(false);
 
   return (
     <form>
@@ -90,13 +80,15 @@ function AddTransaction({ type }) {
           >
             {(option, selected) => (
               <CardOption selected={selected}>
-                {cardLogos[option.type]}
+                {cardLogos[option.cardType]}
                 <CardInfo>{`${option.bank} ${option.accountType}`}</CardInfo>
-                {`**${option.num}`}
+                {`**${option.number}`}
               </CardOption>
             )}
           </Select>
-          <p>Add new card</p>
+          <AddNewBtn onClick={buildHandleClick(setEditingCard, true)}>
+            Add new card
+          </AddNewBtn>
         </SelectWrapper>
         {type === 'expense' && (
           <SelectWrapper>
@@ -110,10 +102,14 @@ function AddTransaction({ type }) {
                 <CardOption selected={selected}>{option}</CardOption>
               )}
             </Select>
-            <p>Add new category</p>
+            <AddNewBtn onClick={buildHandleClick(setEditingCategory, true)}>
+              Add new category
+            </AddNewBtn>
           </SelectWrapper>
         )}
       </Group>
+      {editingCategory && <h1>Editing category!</h1>}
+      {editingCard && <CardForm />}
     </form>
   );
 }
@@ -178,8 +174,11 @@ const Group = styled.div`
 `;
 
 const SelectWrapper = styled.div`
-  flex: 1;
+  flex: 2;
   margin-bottom: 1em;
+  &:first-child {
+    flex: 3;
+  }
   &:last-child {
     margin-bottom: 0;
   }
@@ -188,5 +187,14 @@ const SelectWrapper = styled.div`
     &:last-child {
       margin-right: 0;
     }
+  }
+`;
+
+const AddNewBtn = styled.button`
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.grays.dark};
+  font-weight: 500;
+  &:hover {
+    color: ${({ theme }) => theme.colors.blue};
   }
 `;

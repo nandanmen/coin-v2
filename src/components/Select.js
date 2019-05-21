@@ -47,7 +47,7 @@ function Select(props) {
 
   const { onChange } = props;
   useEffect(() => {
-    if (state.selected) onChange(state.selected);
+    if (typeof state.selected === 'number') onChange(state.selected);
   }, [state.selected, onChange]);
 
   const { searchKey } = props;
@@ -152,6 +152,7 @@ export default Select;
 const Wrapper = styled.div`
   font-size: 1.2em;
   margin: 1em 0;
+  margin-bottom: 0.5em;
   position: relative;
   cursor: pointer;
 `;
