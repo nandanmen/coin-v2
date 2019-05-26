@@ -1,12 +1,32 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Form, Input } from '@narendras/components'
+import { actions } from 'state/ducks/budgets'
 import Modal from './Modal'
 
 const Field = Form.Field
 
-function CategoryModal({ hideModal, ...modalProps }) {
+function CategoryModal({ hideModal, addBudget, ...modalProps }) {
   const inputRef = useRef(null)
+
+  const [name, setName] = useState('')
+  const [budget, setBudget] = useState('')
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    const toAdd = {
+      name,
+      budget
+    }
+    addBudget(toAdd)
+  }
+
+  const handleButtonClick = evt => {
+    hideModal(evt)
+    handleSubmit(evt)
+  }
+
   return (
     <Modal
       {...modalProps}
@@ -17,20 +37,36 @@ function CategoryModal({ hideModal, ...modalProps }) {
       <Modal.Title>Add new category</Modal.Title>
       <Form>
         <Field label="name">
-          <Input type="text" placeholder="Category name" inputRef={inputRef} />
+          <Input
+            value={name}
+            onChange={evt => setName(evt.target.value)}
+            type="text"
+            placeholder="Category name"
+            inputRef={inputRef}
+          />
         </Field>
         <Field label="budget">
-          <Input type="number" placeholder="Budget amount" />
+          <Input
+            value={budget}
+            onChange={evt => setBudget(evt.target.value)}
+            type="number"
+            placeholder="Budget amount"
+          />
         </Field>
       </Form>
-      <Button onClick={hideModal} type="submit">
+      <Button onClick={handleButtonClick} type="submit">
         Add category
       </Button>
     </Modal>
   )
 }
 
-export default CategoryModal
+export default connect(
+  null,
+  {
+    addBudget: actions.addBudget
+  }
+)(CategoryModal)
 
 const Button = styled.button`
   padding: 0.5em 1.5em;

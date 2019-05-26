@@ -1,12 +1,44 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Form, Input, Radio } from '@narendras/components'
+import { actions } from 'state/ducks/accounts'
 import Modal from './Modal'
 
 const Field = Form.Field
 
-function CardModal({ hideModal, ...modalProps }) {
+const handleChange = fn => evt => {
+  evt.preventDefault()
+  fn(evt.target.value)
+}
+
+function CardModal({ hideModal, addAccount, ...modalProps }) {
   const inputRef = useRef(null)
+  const [bank, setBank] = useState('')
+  const [accountType, setAccountType] = useState('debit')
+  const [limit, setLimit] = useState('')
+  const [cardType, setCardType] = useState('visa')
+  const [balance, setBalance] = useState('')
+  const [number, setNumber] = useState('')
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    const account = {
+      bank,
+      accountType,
+      limit,
+      cardType,
+      balance,
+      number
+    }
+    addAccount(account)
+  }
+
+  const handleButtonClick = evt => {
+    hideModal(evt)
+    handleSubmit(evt)
+  }
+
   return (
     <Modal
       {...modalProps}
@@ -15,35 +47,72 @@ function CardModal({ hideModal, ...modalProps }) {
     >
       <Modal.Close onClick={hideModal} />
       <Modal.Title>Add new card</Modal.Title>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Field label="bank">
-          <Input type="text" placeholder="Card issuer" inputRef={inputRef} />
+          <Input
+            type="text"
+            value={bank}
+            onChange={handleChange(setBank)}
+            placeholder="Card issuer"
+            inputRef={inputRef}
+          />
         </Field>
         <Field label="account type">
-          <Radio.Group>
+          <Radio.Group
+            value={accountType}
+            onChange={handleChange(setAccountType)}
+          >
             <Radio.Button value="debit">Debit</Radio.Button>
             <Radio.Button value="credit">Credit</Radio.Button>
           </Radio.Group>
         </Field>
+        {accountType === 'credit' ? (
+          <Field label="limit">
+            <Input
+              type="number"
+              placeholder="Credit card limit"
+              value={limit}
+              onChange={handleChange(setLimit)}
+            />
+          </Field>
+        ) : null}
         <Field label="card type">
-          <Radio.Group>
+          <Radio.Group value={cardType} onChange={handleChange(setCardType)}>
             <Radio.Button value="visa">Visa</Radio.Button>
             <Radio.Button value="mastercard">Mastercard</Radio.Button>
             <Radio.Button value="amex">Amex</Radio.Button>
           </Radio.Group>
         </Field>
         <Field label="balance">
-          <Input type="number" placeholder="Current balance" />
+          <Input
+            type="number"
+            placeholder="Current balance"
+            value={balance}
+            onChange={handleChange(setBalance)}
+          />
+        </Field>
+        <Field label="card number">
+          <Input
+            type="number"
+            placeholder="Last 4 digits only"
+            value={number}
+            onChange={handleChange(setNumber)}
+          />
         </Field>
       </Form>
-      <Button onClick={hideModal} type="submit">
+      <Button onClick={handleButtonClick} type="submit">
         Add card
       </Button>
     </Modal>
   )
 }
 
-export default CardModal
+export default connect(
+  null,
+  {
+    addAccount: actions.addAccount
+  }
+)(CardModal)
 
 const Button = styled.button`
   padding: 0.5em 1.5em;

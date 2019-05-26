@@ -2,7 +2,7 @@ import * as types from './types'
 
 export const addBudget = budget => ({
   type: types.ADD,
-  payload: { ...budget }
+  payload: { ...budget, spent: 0, transactions: [], color: '#bce8ff' }
 })
 
 export const deleteBudget = name => ({

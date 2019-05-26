@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { subMonths, subWeeks, subDays, isWithinRange, parse } from 'date-fns'
-import { getBudgets } from 'utils/mock'
 import { useOptions } from 'utils/hooks'
 import SplitBar from './SplitBar'
 

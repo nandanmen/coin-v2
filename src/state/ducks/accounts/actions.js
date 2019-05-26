@@ -1,8 +1,9 @@
 import * as types from './types'
+import uuid from 'uuid/v4'
 
 export const addAccount = account => ({
   type: types.ADD,
-  payload: { ...account }
+  payload: { id: uuid(), ...account }
 })
 
 export const editAccount = partial => ({

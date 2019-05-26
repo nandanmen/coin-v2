@@ -3,6 +3,25 @@ import * as types from './types'
 import { types as accountTypes } from '../accounts'
 import { types as budgetTypes } from '../budgets'
 
+/*
+state shape:
+{
+  byId: {
+    [id]: {
+      id: string
+      type: 'expense' | 'income'
+      vendor: string
+      amount: double
+      date: Date
+      account: string
+      budget: string
+      note?: string
+    }
+  },
+  allIds: string[]
+}
+*/
+
 const initialState = {
   byId: {},
   allIds: []
