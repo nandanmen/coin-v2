@@ -1,15 +1,15 @@
-import React from 'react';
-import { Router } from '@reach/router';
-import { ThemeProvider } from 'styled-components';
+import React from 'react'
+import { Router } from '@reach/router'
+import { ThemeProvider } from 'styled-components'
 
-import theme from 'theme';
-import Home from 'screens/Home';
-import Accounts from 'screens/Accounts';
-import Transactions from 'screens/Transactions';
-import Budget from 'screens/Budget';
-import BudgetDetail from 'screens/BudgetDetail';
-import AccountDetail from 'screens/AccountDetail';
-import AddForm from 'screens/AddForm';
+import theme from 'theme'
+import Home from 'screens/Home'
+import Accounts from 'screens/Accounts'
+import Transactions from 'screens/Transactions'
+import Budget from 'screens/Budget'
+import BudgetDetail from 'screens/BudgetDetail'
+import AccountDetail from 'screens/AccountDetail'
+import AddForm from 'screens/AddForm'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         <AddForm path="add" />
       </Router>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,30 +1,33 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-import Layout from 'components/Layout';
-import Button from 'components/Button';
-import { getBreakpoint } from 'theme';
+import Layout from 'components/Layout'
+import Button from 'components/Button'
+import CardModal from 'components/CardModal'
+import { getBreakpoint } from 'theme'
 
-import BudgetPie from './budget/BudgetPie';
-import BudgetList from './budget/BudgetList';
+import BudgetPie from './budget/BudgetPie'
+import BudgetList from './budget/BudgetList'
 
 function Budget() {
+  const [showModal, setShowModal] = useState(false)
   return (
     <Layout>
+      <CardModal isOpen={showModal} hideModal={() => setShowModal(false)} />
       <Layout.Heading>Your budget.</Layout.Heading>
       <PieWrapper>
         <BudgetPie />
       </PieWrapper>
       <BudgetList />
       <ButtonContainer>
-        <ActionBtn text="Add new budget" />
+        <ActionBtn onClick={() => setShowModal(true)} text="Add new budget" />
         <ActionBtn text="Edit budgets" />
       </ButtonContainer>
     </Layout>
-  );
+  )
 }
 
-export default Budget;
+export default Budget
 
 const PieWrapper = styled.div`
   width: 100%;
@@ -32,13 +35,13 @@ const PieWrapper = styled.div`
     width: 50%;
     margin: 0 auto;
   }
-`;
+`
 
 const ButtonContainer = styled.div`
   margin-top: 4em;
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const ActionBtn = styled(Button)`
   height: 4em;
@@ -48,4 +51,4 @@ const ActionBtn = styled(Button)`
   p {
     margin: 0;
   }
-`;
+`
