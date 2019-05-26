@@ -33,12 +33,13 @@ const addTransactionToBudget = (state, action) => {
 const deleteTransactionFromBudget = (state, action) => {
   const { id, budget, amount, type } = action.payload
   if (type === 'income') return state
+  const prevBudget = state[budget]
   return {
     ...state,
     [budget]: {
-      ...state.budget,
-      spent: budget.spent - amount,
-      transactions: budget.transactions.filter(bid => bid !== id)
+      ...prevBudget,
+      spent: prevBudget.spent - amount,
+      transactions: prevBudget.transactions.filter(bid => bid !== id)
     }
   }
 }
