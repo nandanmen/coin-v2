@@ -14,7 +14,7 @@ function BudgetInfo({ budgets, className }) {
       {budgets.length ? (
         <div className={className}>
           <StyledCard category={first.name} {...first} />
-          <StyledCard category={second.name} {...second} />
+          {second ? <StyledCard category={second.name} {...second} /> : null}
           <BlockLink to="/budget">
             <MoreButton>
               <KeyboardArrowRight size="4em" />
