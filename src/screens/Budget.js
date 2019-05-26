@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Layout from 'components/Layout'
 import Button from 'components/Button'
-import CardModal from 'components/CardModal'
+import CategoryModal from 'components/CategoryModal'
 import { getBreakpoint } from 'theme'
 
 import BudgetPie from './budget/BudgetPie'
@@ -13,7 +13,7 @@ function Budget() {
   const [showModal, setShowModal] = useState(false)
   return (
     <Layout>
-      <CardModal isOpen={showModal} hideModal={() => setShowModal(false)} />
+      <CategoryModal isOpen={showModal} hideModal={() => setShowModal(false)} />
       <Layout.Heading>Your budget.</Layout.Heading>
       <PieWrapper>
         <BudgetPie />

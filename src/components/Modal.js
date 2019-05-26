@@ -20,6 +20,11 @@ function ModalWrapper({ className, ...props }) {
 }
 
 const Modal = styled(ModalWrapper)`
+  font-size: 1em;
+  @media (min-width: ${getBreakpoint(0)}) {
+    font-size: 1.2em;
+  }
+
   &__content {
     position: relative;
     width: 85%;

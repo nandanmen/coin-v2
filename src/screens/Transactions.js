@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
-import Layout from 'components/Layout';
-import TransactionList from 'components/TransactionList';
-import { getTransactions } from 'utils/mock';
-import { useOptions } from 'utils/hooks';
+import Layout from 'components/Layout'
+import TransactionList from 'components/TransactionList'
+import CardModal from 'components/CardModal'
+import { getTransactions } from 'utils/mock'
+import { useOptions } from 'utils/hooks'
 
-import Week from './transactions/Week';
-import Month from './transactions/Month';
-import TransactionSummary from './transactions/TransactionSummary';
+import Week from './transactions/Week'
+import Month from './transactions/Month'
+import TransactionSummary from './transactions/TransactionSummary'
 
-const periods = ['week', 'month'];
+const periods = ['week', 'month']
 
 // fetch appropriate transactions
-const fetchTransactions = () => getTransactions();
+const fetchTransactions = () => getTransactions()
 
 function Transactions() {
-  const [activeDate, setActiveDate] = useState(new Date());
-  const [transactions, setTransactions] = useState([]);
-  const [activePeriod, selections] = useOptions(1, periods);
+  const [activeDate, setActiveDate] = useState(new Date())
+  const [transactions, setTransactions] = useState([])
+  const [activePeriod, selections] = useOptions(1, periods)
 
   useEffect(() => {
-    const result = fetchTransactions(activeDate);
-    setTransactions(result);
-  }, [activeDate]);
+    const result = fetchTransactions(activeDate)
+    setTransactions(result)
+  }, [activeDate])
 
-  const handleDateChange = date => setActiveDate(date);
+  const handleDateChange = date => setActiveDate(date)
 
   return (
     <Layout>
@@ -41,19 +42,19 @@ function Transactions() {
         <TransactionSummary transactions={transactions} />
       </TransactionGroup>
     </Layout>
-  );
+  )
 }
 
-export default Transactions;
+export default Transactions
 
 const PeriodContainer = styled.div`
   margin-bottom: 3em;
-`;
+`
 
 const TransactionGroup = styled.div`
   margin-top: 3em;
-`;
+`
 
 const List = styled(TransactionList)`
   margin-bottom: 4em;
-`;
+`

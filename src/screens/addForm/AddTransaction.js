@@ -6,6 +6,7 @@ import { getBreakpoint } from 'theme'
 import { capitalize } from 'utils'
 import { getAccounts, getAccountById, getBudgets } from 'utils/mock'
 import CardModal from 'components/CardModal'
+import CategoryModal from 'components/CategoryModal'
 
 const Field = Form.Field
 const Option = Select.Option
@@ -39,6 +40,10 @@ function AddTransaction({ type }) {
       <CardModal
         isOpen={editingCard}
         hideModal={handleClick(setEditingCard, false)}
+      />
+      <CategoryModal
+        isOpen={editingCategory}
+        hideModal={handleClick(setEditingCategory, false)}
       />
       <Group>
         <Field label={type === 'expense' ? 'vendor' : 'for'}>
