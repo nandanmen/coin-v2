@@ -114,6 +114,7 @@ describe('budgets reducer', () => {
       type: transactionTypes.DELETE,
       payload: {
         id: 2,
+        budget: 'food',
         account: 0,
         amount: 11.03
       }

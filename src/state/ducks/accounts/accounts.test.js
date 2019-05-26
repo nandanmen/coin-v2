@@ -6,6 +6,7 @@ import * as types from './types'
 describe('accounts reducer', () => {
   const testState = {
     0: {
+      id: 0,
       bank: 'bmo',
       accountType: 'debit',
       cardType: 'mastercard',
@@ -15,6 +16,7 @@ describe('accounts reducer', () => {
       color: 'blue'
     },
     1: {
+      id: 1,
       bank: 'scotia',
       accountType: 'credit',
       cardType: 'visa',
@@ -67,6 +69,7 @@ describe('accounts reducer', () => {
       }
     }
     const state = reducer(testState, action)
+    expect(state).not.toBe(testState)
     expect(state[1].accountType).toEqual(action.payload.accountType)
     expect(_.omit(state[1], 'accountType')).toEqual(
       _.omit(testState[1], 'accountType')
@@ -96,7 +99,7 @@ describe('accounts reducer', () => {
       const { account, amount } = action.payload
       const expected = testState[account].balance - amount
       const state = reducer(testState, action)
-      expect(state[account].balance).toEqual(expected)
+      expect(state[account].balance).toBeCloseTo(expected)
     })
 
     it('increases account balance for credit accounts', () => {
@@ -114,7 +117,7 @@ describe('accounts reducer', () => {
       const { account, amount } = creditAction.payload
       const expected = testState[account].balance + amount
       const state = reducer(testState, creditAction)
-      expect(state[account].balance).toEqual(expected)
+      expect(state[account].balance).toBeCloseTo(expected)
     })
   })
 
@@ -141,7 +144,7 @@ describe('accounts reducer', () => {
       const { account, amount } = action.payload
       const expected = testState[account].balance + amount
       const state = reducer(testState, action)
-      expect(state[account].balance).toEqual(expected)
+      expect(state[account].balance).toBeCloseTo(expected)
     })
 
     it('decreases balance for credit accounts', () => {
@@ -158,8 +161,9 @@ describe('accounts reducer', () => {
       }
       const { account, amount } = creditAction.payload
       const expected = testState[account].balance - amount
-      const state = reducer(testState, action)
-      expect(state[account].balance).toEqual(expected)
+      const state = reducer(testState, creditAction)
+      expect(state).not.toBe(testState)
+      expect(state[account].balance).toBeCloseTo(expected)
     })
   })
 })

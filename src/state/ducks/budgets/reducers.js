@@ -1,4 +1,4 @@
-import { omit, find } from 'lodash'
+import { omit } from 'lodash'
 import * as types from './types'
 import { types as transactionTypes } from '../transactions'
 
@@ -18,7 +18,8 @@ state shape:
 const initialState = {}
 
 const addTransactionToBudget = (state, action) => {
-  const { id, budget, amount } = action.payload
+  const { id, budget, amount, type } = action.payload
+  if (type === 'income') return state
   const prevBudget = state[budget]
   return {
     ...state,
@@ -30,13 +31,12 @@ const addTransactionToBudget = (state, action) => {
   }
 }
 const deleteTransactionFromBudget = (state, action) => {
-  const { id, amount } = action.payload
-  const budget = find(state, b => b.transactions.includes(id))
-  if (!budget) return state
+  const { id, budget, amount, type } = action.payload
+  if (type === 'income') return state
   return {
     ...state,
-    [budget.name]: {
-      ...budget,
+    [budget]: {
+      ...state.budget,
       spent: budget.spent - amount,
       transactions: budget.transactions.filter(bid => bid !== id)
     }
