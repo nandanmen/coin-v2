@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import reducer from '../reducers'
-import { types as transactionTypes } from '../../transactions'
-import * as types from '../types'
+import reducer from './reducers'
+import { types as transactionTypes } from '../transactions'
+import * as types from './types'
 
 describe('budgets reducer', () => {
   const testState = {
@@ -76,7 +76,8 @@ describe('budgets reducer', () => {
         account: 0,
         vendor: 'mcd',
         amount: 12.99,
-        date: '2019-05-25'
+        date: '2019-05-25',
+        type: 'expense'
       }
     }
 
@@ -90,6 +91,22 @@ describe('budgets reducer', () => {
       const state = reducer(testState, action)
       expect(state.food.spent).toEqual(expected)
     })
+
+    it('ignores income transactions', () => {
+      const incomeAction = {
+        type: transactionTypes.ADD,
+        payload: {
+          id: 5,
+          account: 0,
+          for: 'interac',
+          amount: 12.99,
+          date: '2019-05-25',
+          type: 'income'
+        }
+      }
+      const state = reducer(testState, incomeAction)
+      expect(state).toBe(testState)
+    })
   })
 
   describe('delete transaction', () => {
@@ -98,10 +115,7 @@ describe('budgets reducer', () => {
       payload: {
         id: 2,
         account: 0,
-        budget: 'food',
-        vendor: 'chipotle',
-        amount: 11.03,
-        date: '2019-05-06'
+        amount: 11.03
       }
     }
 

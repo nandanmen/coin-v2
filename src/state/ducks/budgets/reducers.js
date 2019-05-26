@@ -18,24 +18,26 @@ state shape:
 const initialState = {}
 
 const addTransactionToBudget = (state, action) => {
-  const { id, budget } = action.payload
+  const { id, budget, amount } = action.payload
   const prevBudget = state[budget]
   return {
     ...state,
     [budget]: {
       ...prevBudget,
+      spent: prevBudget.spent + amount,
       transactions: [...prevBudget.transactions, id]
     }
   }
 }
 const deleteTransactionFromBudget = (state, action) => {
-  const id = action.payload
+  const { id, amount } = action.payload
   const budget = find(state, b => b.transactions.includes(id))
   if (!budget) return state
   return {
     ...state,
     [budget.name]: {
       ...budget,
+      spent: budget.spent - amount,
       transactions: budget.transactions.filter(bid => bid !== id)
     }
   }

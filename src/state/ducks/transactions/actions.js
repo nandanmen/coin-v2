@@ -7,10 +7,10 @@ export const addTransaction = transaction => ({
 
 export const editTransaction = partial => ({
   type: types.EDIT,
-  payload: {...partial}
+  payload: { ...partial }
 })
 
-export const deleteTransaction = id => ({
+export const deleteTransaction = transaction => ({
   type: types.DELETE,
-  payload: id
+  payload: { ...transaction }
 })
