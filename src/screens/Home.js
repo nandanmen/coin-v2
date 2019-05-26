@@ -1,16 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import styled from 'styled-components';
-import { KeyboardArrowRight } from 'styled-icons/material';
-import Layout, { MAIN_WIDTH } from 'components/Layout';
-import BlockLink from 'components/BlockLink';
-import Currency from 'components/Currency';
-import SpendingInfo from './home/SpendingInfo';
-import BudgetInfo from './home/BudgetInfo';
-import { getTodayInfo, getTotalBalance, getBudgets } from 'utils/mock';
-import { getBreakpoint } from 'theme';
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { KeyboardArrowRight } from 'styled-icons/material'
+import { getBreakpoint } from 'theme'
 
-function Home() {
+import Layout, { MAIN_WIDTH } from 'components/Layout'
+import BlockLink from 'components/BlockLink'
+import Currency from 'components/Currency'
+import SpendingInfo from './home/SpendingInfo'
+import BudgetInfo from './home/BudgetInfo'
+
+import {
+  transactionSelectors,
+  accountSelectors,
+  budgetSelectors
+} from '../state/ducks'
+
+function Home({ today, balance, budgets }) {
   return (
     <Layout>
       <Layout.Heading>Welcome.</Layout.Heading>
@@ -20,7 +27,7 @@ function Home() {
           icon={<Icon size="3em" title="Go to today page" />}
         >
           <LinkWrapper>
-            <Spent amount={getTodayInfo().spent} currency="usd" />
+            <Spent amount={today} currency="usd" />
             <p>Today's spendings</p>
           </LinkWrapper>
         </NumberSummary>
@@ -29,25 +36,31 @@ function Home() {
           icon={<Icon size="3em" title="Go to accounts page" />}
         >
           <LinkWrapper>
-            <Spent amount={getTotalBalance()} currency="usd" />
+            <Spent amount={balance} currency="usd" />
             <p>Total balance</p>
           </LinkWrapper>
         </NumberSummary>
       </NumbersContainer>
-      <BudgetContainer budgets={getBudgets()} />
-      <SpendingInfo />
+      <BudgetContainer budgets={budgets} />
+      <SpendingInfo budgets={budgets} />
     </Layout>
-  );
+  )
 }
 
-export default Home;
+export default connect(state => ({
+  today: transactionSelectors
+    .getTodayTransactions(state.transactions)
+    .reduce((acc, tr) => acc + tr.amount, 0),
+  balance: accountSelectors.getTotalBalance(state.accounts),
+  budgets: budgetSelectors.getPopulatedBudgets(state)
+}))(Home)
 
 const NumberSummary = styled(BlockLink)`
   margin-bottom: 1.5em;
   &:last-child {
     margin-bottom: 0;
   }
-`;
+`
 
 const NumbersContainer = styled.div`
   display: flex;
@@ -62,7 +75,7 @@ const NumbersContainer = styled.div`
       margin-bottom: 0;
     }
   }
-`;
+`
 
 const LinkWrapper = styled.div`
   display: flex;
@@ -72,18 +85,18 @@ const LinkWrapper = styled.div`
     font-size: 1.5em;
     color: ${({ theme }) => theme.colors.grays.dark};
   }
-`;
+`
 
 const Spent = styled(Currency)`
   font-size: 4em;
   @media (min-width: ${getBreakpoint(0)}) {
     font-size: 3em;
   }
-`;
+`
 
 const Icon = styled(KeyboardArrowRight)`
   color: ${({ theme }) => theme.colors.grays.dark};
-`;
+`
 
 const BudgetContainer = styled(BudgetInfo)`
   margin: 3em 0;
@@ -117,4 +130,4 @@ const BudgetContainer = styled(BudgetInfo)`
     }
     overflow-x: initial;
   }
-`;
+`
