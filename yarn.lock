@@ -1378,7 +1378,7 @@
 
 "@narendras/components@github:narendrasss/components":
   version "1.0.0"
-  resolved "https://codeload.github.com/narendrasss/components/tar.gz/58105af911bb880eca6be1b91ec369d86a9cef1f"
+  resolved "https://codeload.github.com/narendrasss/components/tar.gz/c9247088acd0249eefcf00946b3552c946859e47"
   dependencies:
     clsx "^1.0.4"
 

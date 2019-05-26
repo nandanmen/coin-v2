@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Form, Input } from '@narendras/components'
 import Modal from './Modal'
@@ -6,13 +6,18 @@ import Modal from './Modal'
 const Field = Form.Field
 
 function CategoryModal({ hideModal, ...modalProps }) {
+  const inputRef = useRef(null)
   return (
-    <Modal {...modalProps} onRequestClose={hideModal}>
+    <Modal
+      {...modalProps}
+      onRequestClose={hideModal}
+      onAfterOpen={() => inputRef.current.focus()}
+    >
       <Modal.Close onClick={hideModal} />
       <Modal.Title>Add new category</Modal.Title>
       <Form>
         <Field label="name">
-          <Input type="text" placeholder="Category name" />
+          <Input type="text" placeholder="Category name" inputRef={inputRef} />
         </Field>
         <Field label="budget">
           <Input type="number" placeholder="Budget amount" />

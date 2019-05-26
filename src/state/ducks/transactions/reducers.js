@@ -1,8 +1,37 @@
+import _ from 'lodash'
 import * as types from './types'
+import { types as accountTypes } from '../accounts'
+import { types as budgetTypes } from '../budgets'
 
 const initialState = {
   byId: {},
   allIds: []
+}
+
+const resetTransactionCategory = (state, action) => {
+  const budgetName = action.payload
+  return {
+    ...state,
+    byId: _.mapValues(state.byId, tr => {
+      if (tr.budget === budgetName) {
+        return { ...tr, budget: 'other' }
+      }
+      return tr
+    })
+  }
+}
+
+const removeAccountFromTransactions = (state, action) => {
+  const accountId = action.payload
+  return {
+    ...state,
+    byId: _.mapValues(state.byId, tr => {
+      if (tr.account === accountId) {
+        return { ...tr, account: -1 }
+      }
+      return tr
+    })
+  }
 }
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +69,10 @@ const reducer = (state = initialState, action) => {
         },
         allIds: state.allIds.filter(id => id !== action.payload)
       }
+    case budgetTypes.DELETE:
+      return resetTransactionCategory(state, action)
+    case accountTypes.DELETE:
+      return removeAccountFromTransactions(state, action)
     default:
       return state
   }

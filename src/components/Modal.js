@@ -41,7 +41,7 @@ const Modal = styled(ModalWrapper)`
     }
 
     @media (min-width: ${getBreakpoint(1)}) {
-      width: 50em;
+      width: 40em;
       padding: 5em;
     }
   }

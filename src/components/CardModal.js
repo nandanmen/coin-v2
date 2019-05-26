@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { Form, Input, Radio } from '@narendras/components'
 import Modal from './Modal'
@@ -6,13 +6,18 @@ import Modal from './Modal'
 const Field = Form.Field
 
 function CardModal({ hideModal, ...modalProps }) {
+  const inputRef = useRef(null)
   return (
-    <Modal {...modalProps} onRequestClose={hideModal}>
+    <Modal
+      {...modalProps}
+      onRequestClose={hideModal}
+      onAfterOpen={() => inputRef.current.focus()}
+    >
       <Modal.Close onClick={hideModal} />
       <Modal.Title>Add new card</Modal.Title>
       <Form>
         <Field label="bank">
-          <Input type="text" placeholder="Card issuer" />
+          <Input type="text" placeholder="Card issuer" inputRef={inputRef} />
         </Field>
         <Field label="account type">
           <Radio.Group>
