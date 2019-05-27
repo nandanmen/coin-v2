@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { isSameDay } from 'date-fns'
+
+import { selectors } from 'state/ducks/transactions'
 
 import Layout from 'components/Layout'
 import TransactionList from 'components/TransactionList'
-import CardModal from 'components/CardModal'
-import { getTransactions } from 'utils/mock'
 import { useOptions } from 'utils/hooks'
 
 import Week from './transactions/Week'
@@ -13,18 +15,12 @@ import TransactionSummary from './transactions/TransactionSummary'
 
 const periods = ['week', 'month']
 
-// fetch appropriate transactions
-const fetchTransactions = () => getTransactions()
-
-function Transactions() {
+function Transactions({ transactions }) {
   const [activeDate, setActiveDate] = useState(new Date())
-  const [transactions, setTransactions] = useState([])
   const [activePeriod, selections] = useOptions(1, periods)
-
-  useEffect(() => {
-    const result = fetchTransactions(activeDate)
-    setTransactions(result)
-  }, [activeDate])
+  const activeTransactions = transactions.filter(tr =>
+    isSameDay(tr.date, activeDate)
+  )
 
   const handleDateChange = date => setActiveDate(date)
 
@@ -38,14 +34,16 @@ function Transactions() {
         <Month onClick={handleDateChange} activeDate={activeDate} />
       ) : null}
       <TransactionGroup>
-        <List transactions={transactions} />
-        <TransactionSummary transactions={transactions} />
+        <List transactions={activeTransactions} />
+        <TransactionSummary transactions={activeTransactions} />
       </TransactionGroup>
     </Layout>
   )
 }
 
-export default Transactions
+export default connect(state => ({
+  transactions: selectors.getTransactions(state)
+}))(Transactions)
 
 const PeriodContainer = styled.div`
   margin-bottom: 3em;

@@ -3,7 +3,7 @@ import uuid from 'uuid/v4'
 
 export const addAccount = account => ({
   type: types.ADD,
-  payload: { id: uuid(), ...account }
+  payload: { id: uuid(), ...account, transactions: [], color: '#333333' }
 })
 
 export const editAccount = partial => ({

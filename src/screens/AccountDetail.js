@@ -1,16 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import { navigate } from '@reach/router'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import Layout from 'components/Layout';
-import BankCard from 'components/BankCard';
-import BackButton from 'components/BackButton';
-import TransactionGroup from 'components/TransactionGroup';
-import { getAccountById, getTransactions } from 'utils/mock';
-import { getBreakpoint } from 'theme';
+import { selectors } from 'state/ducks/accounts'
 
-function AccountDetail({ id }) {
-  const account = getAccountById(id);
-  const transactions = getTransactions();
+import Layout from 'components/Layout'
+import BankCard from 'components/BankCard'
+import BackButton from 'components/BackButton'
+import TransactionGroup from 'components/TransactionGroup'
+import Empty from 'components/Empty'
+import { getBreakpoint } from 'theme'
+
+function AccountDetail({ account }) {
+  const { transactions } = account
   return (
     <Layout>
       <Back>Accounts</Back>
@@ -19,24 +22,37 @@ function AccountDetail({ id }) {
       </CardContainer>
       <Transactions>
         <h1>Recent Transactions</h1>
-        <TransactionGroup transactions={transactions} />
+        {transactions.length ? (
+          <TransactionGroup transactions={transactions} />
+        ) : (
+          <Empty>
+            <Empty.Title>
+              You don't have any transactions for this account.
+            </Empty.Title>
+            <Empty.Action onClick={() => navigate('/add')}>
+              Add a new transaction
+            </Empty.Action>
+          </Empty>
+        )}
       </Transactions>
     </Layout>
-  );
+  )
 }
 
-export default AccountDetail;
+export default connect((state, { id }) => ({
+  account: selectors.getAccountById(id, state)
+}))(AccountDetail)
 
 const Back = styled(BackButton)`
   margin-bottom: 2em;
-`;
+`
 
 const CardContainer = styled.header`
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 4em;
-`;
+`
 
 const Card = styled(BankCard)`
   width: 100%;
@@ -45,7 +61,7 @@ const Card = styled(BankCard)`
   @media (min-width: ${getBreakpoint(0)}) {
     width: 70%;
   }
-`;
+`
 
 const Transactions = styled.section`
   > * {
@@ -58,4 +74,4 @@ const Transactions = styled.section`
     color: ${({ theme }) => theme.colors.grays.dark};
     margin-top: 1.5em;
   }
-`;
+`

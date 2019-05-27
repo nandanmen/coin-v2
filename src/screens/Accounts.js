@@ -1,44 +1,62 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Plus } from 'styled-icons/boxicons-regular'
+
+import { selectors } from 'state/ducks/accounts'
+
 import Layout, { MAIN_WIDTH } from 'components/Layout'
 import Currency from 'components/Currency'
 import Button from 'components/Button'
 import BlockLink from 'components/BlockLink'
 import BankCard from 'components/BankCard'
 import CardModal from 'components/CardModal'
-import { getAccounts, getTotalBalance } from 'utils/mock'
+import Empty from 'components/Empty'
 import { getBreakpoint } from 'theme'
 
-function Accounts() {
+function Accounts({ accounts, balance }) {
   const [showModal, setShowModal] = useState(false)
   return (
     <Layout>
       <CardModal isOpen={showModal} hideModal={() => setShowModal(false)} />
       <Layout.Heading>Your accounts.</Layout.Heading>
-      <Mid>
-        <LinkWrapper>
-          <Spent amount={getTotalBalance()} currency="usd" />
-          <p>Total balance</p>
-        </LinkWrapper>
-        <AddBtn
-          onClick={() => setShowModal(true)}
-          icon={<Plus size="3rem" />}
-          text="Add new card"
-        />
-      </Mid>
-      <CardsContainer>
-        {getAccounts().map(account => (
-          <BlockLink key={account.id} to={account.id}>
-            <Card {...account} />
-          </BlockLink>
-        ))}
-      </CardsContainer>
+      {accounts.length ? (
+        <>
+          <Mid>
+            <LinkWrapper>
+              <Balance amount={balance} currency="usd" />
+              <p>Total balance</p>
+            </LinkWrapper>
+            <AddBtn
+              onClick={() => setShowModal(true)}
+              icon={<Plus size="3rem" />}
+              text="Add new card"
+            />
+          </Mid>
+          <CardsContainer>
+            {accounts.map(account => (
+              <BlockLink key={account.id} to={account.id}>
+                <Card {...account} />
+              </BlockLink>
+            ))}
+          </CardsContainer>
+        </>
+      ) : (
+        <Empty>
+          <Empty.Title>Looks like you don't have any accounts yet.</Empty.Title>
+          <Empty.Action onClick={() => setShowModal(true)}>
+            Add a new account
+          </Empty.Action>
+        </Empty>
+      )}
     </Layout>
   )
 }
 
-export default Accounts
+export default connect(state => ({
+  accounts: selectors.getAccounts(state),
+  balance: selectors.getTotalBalance(state)
+}))(Accounts)
 
 const Mid = styled.div`
   margin-bottom: 3em;
@@ -79,7 +97,7 @@ const LinkWrapper = styled.div`
   }
 `
 
-const Spent = styled(Currency)`
+const Balance = styled(Currency)`
   font-size: 4em;
   @media (min-width: ${getBreakpoint(0)}) {
     font-size: 3em;
