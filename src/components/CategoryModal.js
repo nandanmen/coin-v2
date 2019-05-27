@@ -5,7 +5,8 @@ import { Form, Input } from '@narendras/components'
 import { actions } from 'state/ducks/budgets'
 import Modal from './Modal'
 
-const Field = Form.Field
+const { Field } = Form
+const { Close, Title } = Modal
 
 function CategoryModal({ hideModal, addBudget, ...modalProps }) {
   const inputRef = useRef(null)
@@ -33,9 +34,9 @@ function CategoryModal({ hideModal, addBudget, ...modalProps }) {
       onRequestClose={hideModal}
       onAfterOpen={() => inputRef.current.focus()}
     >
-      <Modal.Close onClick={hideModal} />
-      <Modal.Title>Add new category</Modal.Title>
-      <Form>
+      <Close onClick={hideModal} />
+      <Title>Add new category</Title>
+      <Form onSubmit={handleSubmit}>
         <Field label="name">
           <Input
             value={name}

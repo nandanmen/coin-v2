@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { KeyboardArrowRight } from 'styled-icons/material'
-import BudgetCard, { Container } from './BudgetCard'
+
 import BlockLink from 'components/BlockLink'
 import CategoryModal from 'components/CategoryModal'
+import Empty from 'components/Empty'
+import BudgetCard, { Container } from './BudgetCard'
 
 function BudgetInfo({ budgets, className }) {
   const [showModal, setShowModal] = useState(false)
@@ -23,10 +25,10 @@ function BudgetInfo({ budgets, className }) {
         </div>
       ) : (
         <Empty>
-          <h1>Looks like you don't have any budgets yet.</h1>
-          <button onClick={() => setShowModal(true)}>
+          <Empty.Title>Looks like you don't have any budgets yet.</Empty.Title>
+          <Empty.Action onClick={() => setShowModal(true)}>
             Would you like to add one?
-          </button>
+          </Empty.Action>
         </Empty>
       )}
     </>
@@ -47,22 +49,6 @@ const MoreButton = styled(Container)`
   &:hover {
     background: ${({ theme }) => theme.colors.blue};
     color: ${({ theme }) => theme.colors.white};
-  }
-`
-
-const Empty = styled.section`
-  font-size: inherit;
-  margin: 5em 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.grays.dark};
-  button {
-    cursor: pointer;
-    margin-top: 1em;
-    &:hover {
-      color: ${({ theme }) => theme.colors.blue};
-    }
   }
 `
 

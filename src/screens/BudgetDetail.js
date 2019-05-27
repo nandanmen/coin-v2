@@ -1,16 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import { navigate } from '@reach/router'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import Layout from 'components/Layout';
-import TransactionGroup from 'components/TransactionGroup';
-import BackButton from 'components/BackButton';
-import BudgetProgress from './budgetDetail/BudgetProgress';
-import { getBudgetByName, getTransactions } from 'utils/mock';
-import { getBreakpoint } from 'theme';
+import { budgetSelectors } from 'state/ducks'
 
-function BudgetDetail({ name }) {
-  const budget = getBudgetByName(name);
-  const transactions = getTransactions();
+import Layout from 'components/Layout'
+import TransactionGroup from 'components/TransactionGroup'
+import BackButton from 'components/BackButton'
+import Empty from 'components/Empty'
+import { getBreakpoint } from 'theme'
+
+import BudgetProgress from './budgetDetail/BudgetProgress'
+
+function BudgetDetail({ budget }) {
+  const { name, transactions } = budget
   return (
     <Layout>
       <BackButton>Budgets</BackButton>
@@ -20,17 +24,28 @@ function BudgetDetail({ name }) {
       </PieWrapper>
       <Transactions>
         <h1>Recent Transactions</h1>
-        <TransactionGroup transactions={transactions} />
+        {transactions.length ? (
+          <TransactionGroup transactions={transactions} />
+        ) : (
+          <Empty>
+            <Empty.Title>No transactions yet.</Empty.Title>
+            <Empty.Action onClick={() => navigate('/add')}>
+              Add a transaction
+            </Empty.Action>
+          </Empty>
+        )}
       </Transactions>
     </Layout>
-  );
+  )
 }
 
-export default BudgetDetail;
+export default connect((state, { name }) => ({
+  budget: budgetSelectors.getPopulatedBudgets(state).find(b => b.name === name)
+}))(BudgetDetail)
 
 const Heading = styled(Layout.Heading)`
   text-transform: capitalize;
-`;
+`
 
 const PieWrapper = styled.div`
   width: 100%;
@@ -41,7 +56,7 @@ const PieWrapper = styled.div`
     margin-left: auto;
     margin-right: auto;
   }
-`;
+`
 
 const Transactions = styled.section`
   > * {
@@ -54,4 +69,4 @@ const Transactions = styled.section`
     color: ${({ theme }) => theme.colors.grays.dark};
     margin-top: 1.5em;
   }
-`;
+`

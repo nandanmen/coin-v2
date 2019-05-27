@@ -3,11 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { KeyboardArrowRight } from 'styled-icons/material'
-import { getBreakpoint } from 'theme'
 
 import Layout, { MAIN_WIDTH } from 'components/Layout'
 import BlockLink from 'components/BlockLink'
 import Currency from 'components/Currency'
+import { getBreakpoint } from 'theme'
+
 import SpendingInfo from './home/SpendingInfo'
 import BudgetInfo from './home/BudgetInfo'
 
