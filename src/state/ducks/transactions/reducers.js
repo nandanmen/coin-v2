@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { compareDesc } from 'date-fns'
 import * as types from './types'
 import { types as accountTypes } from '../accounts'
 import { types as budgetTypes } from '../budgets'
@@ -64,7 +65,7 @@ const reducer = (state = initialState, action) => {
             ...action.payload
           }
         },
-        allIds: [...state.allIds, { ...action.payload }]
+        allIds: [...state.allIds, { ...action.payload }].sort(compareDesc)
       }
     case types.EDIT: {
       const { id } = action.payload
@@ -76,7 +77,8 @@ const reducer = (state = initialState, action) => {
             ...state.byId[id],
             ...action.payload
           }
-        }
+        },
+        allIds: state.allIds.sort(compareDesc)
       }
     }
     case types.DELETE:
@@ -86,7 +88,9 @@ const reducer = (state = initialState, action) => {
           ...state.byId,
           [action.payload]: undefined
         },
-        allIds: state.allIds.filter(id => id !== action.payload)
+        allIds: state.allIds
+          .filter(id => id !== action.payload)
+          .sort(compareDesc)
       }
     case budgetTypes.DELETE:
       return resetTransactionCategory(state, action)

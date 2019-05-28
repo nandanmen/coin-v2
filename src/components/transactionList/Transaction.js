@@ -1,18 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import Icon from 'components/Icon';
+import React from 'react'
+import styled from 'styled-components'
+import Icon from 'components/Icon'
 
-function getDisplayAmount(amount) {
-  const opts = { style: 'currency', currency: 'usd' };
-  const result = (amount * -1).toLocaleString('en', opts);
-  if (amount < 0) return result;
-  return '+' + result;
+function getDisplayAmount(type, amount) {
+  const opts = { style: 'currency', currency: 'usd' }
+  const result = amount.toLocaleString('en', opts)
+  return type === 'expense' ? result : `+${result}`
 }
 
 function Transaction(props) {
-  const { vendor, amount, account, budget } = props;
-  const { bank, accountType } = account;
-  const displayAmount = getDisplayAmount(amount);
+  const { type, vendor, amount, account, budget } = props
+  const { bank, accountType } = account
+  const displayAmount = getDisplayAmount(type, amount)
   return (
     <Container>
       <Icon variant={budget} />
@@ -22,16 +21,16 @@ function Transaction(props) {
       </Info>
       <Amount>{displayAmount}</Amount>
     </Container>
-  );
+  )
 }
 
-export default Transaction;
+export default Transaction
 
 const Container = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 1.5em;
-`;
+`
 
 const Info = styled.div`
   margin-left: 4em;
@@ -39,14 +38,14 @@ const Info = styled.div`
   p {
     text-transform: capitalize;
   }
-`;
+`
 
 const Vendor = styled.h1`
   font-size: 1.5em;
   text-transform: capitalize;
-`;
+`
 
 const Amount = styled.p`
   font-size: 1.2em;
   font-weight: 500;
-`;
+`

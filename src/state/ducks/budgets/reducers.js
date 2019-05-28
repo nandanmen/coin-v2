@@ -25,7 +25,7 @@ const addTransactionToBudget = (state, action) => {
     ...state,
     [budget]: {
       ...prevBudget,
-      spent: prevBudget.spent + amount,
+      spent: Number(prevBudget.spent) + Number(amount),
       transactions: [...prevBudget.transactions, id]
     }
   }
@@ -38,7 +38,7 @@ const deleteTransactionFromBudget = (state, action) => {
     ...state,
     [budget]: {
       ...prevBudget,
-      spent: prevBudget.spent - amount,
+      spent: Number(prevBudget.spent) - Number(amount),
       transactions: prevBudget.transactions.filter(bid => bid !== id)
     }
   }

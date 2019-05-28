@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Form, Select, Input } from '@narendras/components'
 import { format } from 'date-fns'
 import { getBreakpoint } from 'theme'
 import { capitalize } from 'utils'
-import { getAccounts, getAccountById, getBudgets } from 'utils/mock'
+
+import { accountSelectors, budgetSelectors } from 'state/ducks'
+import { actions } from 'state/ducks/transactions'
+
 import CardModal from 'components/CardModal'
 import CategoryModal from 'components/CategoryModal'
 
@@ -16,27 +20,42 @@ function getAccountValue(account) {
   return [bank, accountType, number].join(' ')
 }
 
-function searchAccount(value, option) {
-  const account = getAccountValue(getAccountById(option))
-  return RegExp(`${value}`, 'i').test(account)
-}
-
-function AddTransaction({ type }) {
+function AddTransaction({ type, accounts, budgets, addTransaction }) {
   const [vendor, setVendor] = useState('')
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(format(new Date(), 'YYYY-MM-DD'))
-  const [card, setCard] = useState(0)
-  const [category, setCategory] = useState('')
+  const [account, setAccount] = useState(0)
+  const [budget, setBudget] = useState('')
   const [editingCard, setEditingCard] = useState(false)
   const [editingCategory, setEditingCategory] = useState(false)
 
-  const handleClick = (callback, ...args) => e => {
-    e.preventDefault()
+  const searchAccount = (value, option) => {
+    const account = accounts.filter(account => account.id === option)
+    const val = getAccountValue(account)
+    return RegExp(`${value}`, 'i').test(val)
+  }
+
+  const handleClick = (callback, ...args) => evt => {
+    evt.preventDefault()
     callback(...args)
   }
 
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    const transaction = {
+      type,
+      vendor,
+      amount,
+      date,
+      account,
+      budget
+    }
+    addTransaction(transaction)
+    window.history.back()
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <CardModal
         isOpen={editingCard}
         hideModal={handleClick(setEditingCard, false)}
@@ -70,10 +89,10 @@ function AddTransaction({ type }) {
             <Select
               hasSearch
               searchFn={searchAccount}
-              value={card}
-              onChange={e => setCard(e.target.value)}
+              value={account}
+              onChange={e => setAccount(e.target.value)}
             >
-              {getAccounts().map(account => {
+              {accounts.map(account => {
                 const value = getAccountValue(account)
                 return (
                   <Option key={account.id} value={account.id}>
@@ -92,10 +111,10 @@ function AddTransaction({ type }) {
             <>
               <Select
                 hasSearch
-                value={category}
-                onChange={e => setCategory(e.target.value)}
+                value={budget}
+                onChange={e => setBudget(e.target.value)}
               >
-                {getBudgets()
+                {budgets
                   .map(budget => budget.name)
                   .map(name => (
                     <Option key={name} value={name}>
@@ -110,11 +129,20 @@ function AddTransaction({ type }) {
           </Field>
         ) : null}
       </Group>
+      <Submit type="submit" onClick={handleSubmit}>
+        Add transaction
+      </Submit>
     </Form>
   )
 }
 
-export default AddTransaction
+export default connect(
+  state => ({
+    accounts: accountSelectors.getAccounts(state),
+    budgets: budgetSelectors.getBudgets(state)
+  }),
+  { addTransaction: actions.addTransaction }
+)(AddTransaction)
 
 const Group = styled.div`
   display: flex;
@@ -143,8 +171,20 @@ const Button = styled.button`
   color: ${({ theme }) => theme.colors.grays.dark};
   margin-top: 1em;
   text-align: left;
+  outline: none;
 
   &:hover {
     color: ${({ theme }) => theme.colors.blue};
   }
+`
+
+const Submit = styled.button`
+  font-size: 1.2em;
+  padding: 1em 1.5em;
+  background: ${({ theme }) => theme.colors.blue};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 0.5em;
+  margin-top: 1em;
+  outline: none;
+  cursor: pointer;
 `

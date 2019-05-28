@@ -1,8 +1,9 @@
+import uuid from 'uuid/v4'
 import * as types from './types'
 
 export const addTransaction = transaction => ({
   type: types.ADD,
-  payload: { ...transaction }
+  payload: { id: uuid(), ...transaction }
 })
 
 export const editTransaction = partial => ({
