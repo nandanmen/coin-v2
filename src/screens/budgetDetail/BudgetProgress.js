@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ResponsiveContainer, PieChart, Pie, Cell, Label } from 'recharts';
-import { themeGet } from 'theme';
+import React from 'react'
+import styled from 'styled-components'
+import { ResponsiveContainer, PieChart, Pie, Cell, Label } from 'recharts'
+import { themeGet } from 'theme'
 
 function buildData(budget, spent) {
-  const percentage = (spent / budget) * 100;
+  const percentage = (spent / budget) * 100
   return [
     {
       name: 1,
@@ -14,27 +14,33 @@ function buildData(budget, spent) {
       name: 2,
       value: 100 - percentage
     }
-  ];
+  ]
 }
 
 function renderCenterLabel({ viewBox: { cx, cy }, value }) {
-  const { budget, spent } = value;
+  const { budget, spent } = value
   return (
     <g>
       <CenterCurrency x={cx} y={cy} dy={0} textAnchor="middle" fill="#333">
-        {spent.toLocaleString('en', { style: 'currency', currency: 'usd' })}
+        {Number(spent).toLocaleString('en', {
+          style: 'currency',
+          currency: 'usd'
+        })}
       </CenterCurrency>
       <GroupLabelText x={cx} y={cy + 32} textAnchor="middle" fill="#888">
-        {budget.toLocaleString('en', { style: 'currency', currency: 'usd' })}
+        {Number(budget).toLocaleString('en', {
+          style: 'currency',
+          currency: 'usd'
+        })}
       </GroupLabelText>
     </g>
-  );
+  )
 }
 
 function BudgetProgress({ budget, spent }) {
-  const data = buildData(budget, spent);
-  const blue = themeGet('colors.blue');
-  const gray = themeGet('colors.grays.med');
+  const data = buildData(budget, spent)
+  const blue = themeGet('colors.blue')
+  const gray = themeGet('colors.grays.med')
   return (
     <ResponsiveContainer aspect={1} width="100%">
       <PieChart>
@@ -58,17 +64,17 @@ function BudgetProgress({ budget, spent }) {
         </Pie>
       </PieChart>
     </ResponsiveContainer>
-  );
+  )
 }
 
-export default BudgetProgress;
+export default BudgetProgress
 
 const CenterCurrency = styled.text`
   font-weight: 500;
   font-size: 2.5em;
-`;
+`
 
 const GroupLabelText = styled.text`
   font-size: 1.2em;
   text-transform: capitalize;
-`;
+`

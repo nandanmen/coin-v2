@@ -5,6 +5,7 @@ import { KeyboardArrowRight } from 'styled-icons/material'
 import BlockLink from 'components/BlockLink'
 import CategoryModal from 'components/CategoryModal'
 import Empty from 'components/Empty'
+
 import BudgetCard, { Container } from './BudgetCard'
 
 function BudgetInfo({ budgets, className }) {

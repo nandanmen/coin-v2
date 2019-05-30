@@ -65,7 +65,7 @@ const reducer = (state = initialState, action) => {
             ...action.payload
           }
         },
-        allIds: [...state.allIds, { ...action.payload }].sort(compareDesc)
+        allIds: [...state.allIds, action.payload.id].sort(compareDesc)
       }
     case types.EDIT: {
       const { id } = action.payload

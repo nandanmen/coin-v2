@@ -5,21 +5,42 @@ import { Form, Input, Radio } from '@narendras/components'
 import { actions } from 'state/ducks/accounts'
 import Modal from './Modal'
 
-const Field = Form.Field
+const { Field } = Form
 
 const handleChange = fn => evt => {
   evt.preventDefault()
   fn(evt.target.value)
 }
 
-function CardModal({ hideModal, addAccount, ...modalProps }) {
+function CardModal({ hideModal, addAccount, initialState, ...modalProps }) {
   const inputRef = useRef(null)
-  const [bank, setBank] = useState('')
-  const [accountType, setAccountType] = useState('debit')
-  const [limit, setLimit] = useState('')
-  const [cardType, setCardType] = useState('visa')
-  const [balance, setBalance] = useState('')
-  const [number, setNumber] = useState('')
+
+  let state = {
+    bank: '',
+    accountType: 'debit',
+    limit: '',
+    cardType: 'visa',
+    balance: '',
+    number: ''
+  }
+  if (initialState) {
+    state = { ...initialState }
+  }
+  const {
+    bank: initialBank,
+    accountType: initialAccount,
+    limit: initialLimit,
+    cardType: initialCard,
+    balance: initialBalance,
+    number: initialNumber
+  } = state
+
+  const [bank, setBank] = useState(initialBank)
+  const [accountType, setAccountType] = useState(initialAccount)
+  const [limit, setLimit] = useState(initialLimit)
+  const [cardType, setCardType] = useState(initialCard)
+  const [balance, setBalance] = useState(initialBalance)
+  const [number, setNumber] = useState(initialNumber)
 
   const handleSubmit = evt => {
     evt.preventDefault()

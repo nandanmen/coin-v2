@@ -1,25 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Restaurant, Cart } from 'styled-icons/boxicons-regular';
+import React from 'react'
+import styled from 'styled-components'
+import { Restaurant, Cart } from 'styled-icons/boxicons-regular'
 
-function getIcon(variant, size) {
-  switch (variant) {
-    case 'food':
-      return <Restaurant size={size} />;
-    case 'groceries':
-      return <Cart size={size} />;
-    default:
-      return variant;
-  }
+const iconVariants = {
+  food: Restaurant,
+  groceries: Cart
 }
 
 function Icon({ variant, size, className }) {
-  return <Container className={className}>{getIcon(variant, size)}</Container>;
+  const key = variant.toLowerCase()
+  const Variant = iconVariants[key]
+  return (
+    <Container className={className}>
+      {Variant ? <Variant size={size} /> : variant}
+    </Container>
+  )
 }
 
-export default Icon;
+export default Icon
 
 const Container = styled.div`
   width: 2em;
   height: 2em;
-`;
+`

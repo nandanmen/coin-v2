@@ -14,10 +14,11 @@ const theme = {
     blue: `#6152F6`,
     pink: `#F6B8C3`,
     lyellow: `#f7e6d5`,
-    skyblue: `#bce8ff`
+    skyblue: `#bce8ff`,
+    red: `#C83D3A`
   },
   breakpoints: ['619px', '769px']
-};
+}
 
 /**
  * Retrieves a value from the theme following the given
@@ -29,17 +30,17 @@ const theme = {
  * @param fallback {string}
  */
 export function themeGet(path, fallback) {
-  const props = path.split('.');
+  const props = path.split('.')
   // eslint-disable-next-line
   const result = props.reduce((acc, prop) => {
-    if (acc.hasOwnProperty(prop)) return acc[prop];
-  }, theme);
-  return result ? result : fallback;
+    if (acc.hasOwnProperty(prop)) return acc[prop]
+  }, theme)
+  return result ? result : fallback
 }
 
 export function getBreakpoint(index) {
-  if (index < theme.breakpoints.length) return theme.breakpoints[index];
-  throw new Error('invalid breakpoint index');
+  if (index < theme.breakpoints.length) return theme.breakpoints[index]
+  throw new Error('invalid breakpoint index')
 }
 
-export default theme;
+export default theme

@@ -1,15 +1,18 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Input = styled.input`
-  width: 100%;
   font-size: 1em;
   font-family: inherit;
-  appearance: none;
-  border-radius: 0;
-  border: 0;
+  width: 100%;
+  padding: 0.8em 1.2em;
+  border: 1px solid ${({ theme }) => theme.colors.grays.med};
+  transition: 0.2s border ease-out;
+  border-radius: 0.5rem;
+  outline: none;
+  &:hover,
   &:focus {
-    outline: none;
+    border: 1px solid ${({ theme }) => theme.colors.blue};
   }
-`;
+`
 
-export default Input;
+export default Input

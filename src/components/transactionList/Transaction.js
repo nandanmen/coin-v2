@@ -4,7 +4,7 @@ import Icon from 'components/Icon'
 
 function getDisplayAmount(type, amount) {
   const opts = { style: 'currency', currency: 'usd' }
-  const result = amount.toLocaleString('en', opts)
+  const result = Number(amount).toLocaleString('en', opts)
   return type === 'expense' ? result : `+${result}`
 }
 

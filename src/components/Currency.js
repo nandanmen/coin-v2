@@ -1,30 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 function Currency({ className, amount, currency }) {
-  const [dollar, cents] = amount
+  const [dollar, cents] = Number(amount)
     .toLocaleString('en', {
       style: 'currency',
       currency
     })
-    .split('.');
+    .split('.')
   return (
-    <Number className={className}>
+    <Dollars className={className}>
       {dollar}
       {`.`}
       <Cents>{cents}</Cents>
-    </Number>
-  );
+    </Dollars>
+  )
 }
 
-export default Currency;
+export default Currency
 
-const Number = styled.h1`
+const Dollars = styled.h1`
   color: ${({ theme }) => theme.colors.black};
   font-weight: 500;
-`;
+`
 
 const Cents = styled.span`
   font-size: 0.75em;
   font-weight: 400;
-`;
+`

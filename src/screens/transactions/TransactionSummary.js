@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import Icon from 'components/Icon';
-import { getBreakpoint } from 'theme';
+import React from 'react'
+import styled from 'styled-components'
+import Icon from 'components/Icon'
+import { getBreakpoint } from 'theme'
 
 function summarizeTransactions(transactions) {
   return transactions.reduce((result, transaction) => {
-    const { budget, amount } = transaction;
-    if (!result[budget]) result[budget] = 0;
-    result[budget] += amount * -1;
-    return result;
-  }, {});
+    const { budget, amount } = transaction
+    if (!result[budget]) result[budget] = 0
+    result[budget] += amount
+    return result
+  }, {})
 }
 
 function TransactionSummary({ transactions, className }) {
-  const summary = summarizeTransactions(transactions);
+  const summary = summarizeTransactions(transactions)
   return (
     <Container className={className}>
       {Object.entries(summary).map(budget => (
@@ -23,10 +23,10 @@ function TransactionSummary({ transactions, className }) {
         </Summary>
       ))}
     </Container>
-  );
+  )
 }
 
-export default TransactionSummary;
+export default TransactionSummary
 
 const Container = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const Container = styled.div`
   @media (min-width: ${getBreakpoint(0)}) {
     flex-direction: row;
   }
-`;
+`
 
 const Summary = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const Summary = styled.div`
       margin-right: 0;
     }
   }
-`;
+`
 
 const IconWrapper = styled(Icon).attrs({ size: '1.7em' })`
   width: 3em;
@@ -63,9 +63,9 @@ const IconWrapper = styled(Icon).attrs({ size: '1.7em' })`
   align-items: center;
   justify-content: center;
   margin-right: 1.5em;
-`;
+`
 
 const Amount = styled.p`
   font-size: 1.5em;
   font-weight: 500;
-`;
+`
