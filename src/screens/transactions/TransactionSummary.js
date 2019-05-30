@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import Icon from 'components/Icon'
 import { getBreakpoint } from 'theme'
+
+import Icon from 'components/Icon'
+import Currency from 'components/Currency'
 
 function summarizeTransactions(transactions) {
   return transactions.reduce((result, transaction) => {
     const { budget, amount } = transaction
     if (!result[budget]) result[budget] = 0
-    result[budget] += amount
+    result[budget] += Number(amount)
     return result
   }, {})
 }
@@ -19,7 +21,7 @@ function TransactionSummary({ transactions, className }) {
       {Object.entries(summary).map(budget => (
         <Summary key={budget[0]}>
           <IconWrapper variant={budget[0]} />
-          <Amount>${budget[1]}</Amount>
+          <Currency amount={budget[1]} currency="usd" />
         </Summary>
       ))}
     </Container>
@@ -63,9 +65,4 @@ const IconWrapper = styled(Icon).attrs({ size: '1.7em' })`
   align-items: center;
   justify-content: center;
   margin-right: 1.5em;
-`
-
-const Amount = styled.p`
-  font-size: 1.5em;
-  font-weight: 500;
 `
