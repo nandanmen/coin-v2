@@ -25,6 +25,5 @@ const Dollars = styled.h1`
 `
 
 const Cents = styled.span`
-  font-size: 0.75em;
-  font-weight: 400;
+  font-weight: 300;
 `

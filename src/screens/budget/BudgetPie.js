@@ -60,6 +60,7 @@ function BudgetPie({ budgets = getBudgets(), width = '100%' }) {
   const [isActive, setIsActive] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const total = budgets.reduce((sum, budget) => sum + budget.spent, 0)
+  const applicableBudgets = budgets.filter(b => Boolean(b.spent))
 
   const handleEnter = (_, index) => {
     setIsActive(true)
@@ -99,7 +100,7 @@ function BudgetPie({ budgets = getBudgets(), width = '100%' }) {
           isAnimationActive={false}
           onMouseEnter={handleEnter}
           onMouseLeave={handleLeave}
-          paddingAngle={total ? 4 : 0}
+          paddingAngle={total && applicableBudgets.length > 1 ? 4 : 0}
         >
           {data.map(budget => (
             <Cell key={budget.name} fill={budget.color} />
