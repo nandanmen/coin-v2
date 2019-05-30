@@ -1,14 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 import {
   Home,
   CreditCard,
   Money,
   Plus,
   Wallet
-} from 'styled-icons/boxicons-regular';
-import BlockLink from 'components/BlockLink';
-import { getBreakpoint } from 'theme';
+} from 'styled-icons/boxicons-regular'
+import BlockLink from 'components/BlockLink'
+import Tooltip from 'components/Tooltip'
+import { getBreakpoint } from 'theme'
 
 function Nav({ variant }) {
   if (variant === 'mobile') {
@@ -31,25 +32,35 @@ function Nav({ variant }) {
           Transactions
         </Icon>
       </MobileNav>
-    );
+    )
   }
 
   return (
     <NavWrapper>
-      <Icon to="/add" icon={<Plus size="4rem" />} />
-      <Icon key="home" to="/" icon={<Home size="4rem" />} />
-      <Icon key="accounts" to="/accounts" icon={<CreditCard size="4rem" />} />
-      <Icon key="budget" to="/budget" icon={<Wallet size="4rem" />} />
-      <Icon
-        key="transactions"
-        to="/transactions"
-        icon={<Money size="4rem" />}
-      />
+      <Tooltip text="Add transaction">
+        <Icon to="/add" icon={<Plus size="4rem" />} />
+      </Tooltip>
+      <Tooltip text="Home">
+        <Icon key="home" to="/" icon={<Home size="4rem" />} />
+      </Tooltip>
+      <Tooltip text="Accounts">
+        <Icon key="accounts" to="/accounts" icon={<CreditCard size="4rem" />} />
+      </Tooltip>
+      <Tooltip text="Budget">
+        <Icon key="budget" to="/budget" icon={<Wallet size="4rem" />} />
+      </Tooltip>
+      <Tooltip text="Transactions">
+        <Icon
+          key="transactions"
+          to="/transactions"
+          icon={<Money size="4rem" />}
+        />
+      </Tooltip>
     </NavWrapper>
-  );
+  )
 }
 
-export default Nav;
+export default Nav
 
 const MobileNav = styled.nav`
   background: ${({ theme }) => theme.colors.white};
@@ -63,7 +74,7 @@ const MobileNav = styled.nav`
   justify-content: center;
   padding: 3em;
   font-size: 2em;
-`;
+`
 
 const NavWrapper = styled.nav`
   display: none;
@@ -92,14 +103,14 @@ const NavWrapper = styled.nav`
     }
     right: calc(16px + 368 * ((100vw - 784px) / 1136));
   }
-`;
+`
 
 const Icon = styled(BlockLink)`
-  margin-bottom: 1.5em;
+  position: relative;
   &:last-child {
     margin-bottom: 0;
   }
   &:hover {
     color: ${({ theme }) => theme.colors.blue};
   }
-`;
+`
