@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { isSameDay } from 'date-fns'
+import { isSameDay, format } from 'date-fns'
 
 import { selectors } from 'state/ducks/transactions'
 
@@ -34,6 +34,7 @@ function Transactions({ transactions }) {
         <Month onClick={handleDateChange} activeDate={activeDate} />
       ) : null}
       <TransactionGroup>
+        <h1>Transactions on {format(activeDate, 'DD MMM')}</h1>
         <List transactions={activeTransactions} />
         <TransactionSummary transactions={activeTransactions} />
       </TransactionGroup>
@@ -49,8 +50,12 @@ const PeriodContainer = styled.div`
   margin-bottom: 3em;
 `
 
-const TransactionGroup = styled.div`
+const TransactionGroup = styled.section`
   margin-top: 3em;
+  > h1 {
+    margin-bottom: 1.5em;
+    color: ${({ theme }) => theme.colors.grays.dark};
+  }
 `
 
 const List = styled(TransactionList)`
