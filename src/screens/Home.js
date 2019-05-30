@@ -51,7 +51,7 @@ function Home({ today, balance, budgets }) {
 export default connect(state => ({
   today: transactionSelectors
     .getTodayTransactions(state)
-    .reduce((acc, tr) => acc + tr.amount, 0),
+    .reduce((acc, tr) => acc + Number(tr.amount), 0),
   balance: accountSelectors.getTotalBalance(state),
   budgets: budgetSelectors.getPopulatedBudgets(state)
 }))(Home)
